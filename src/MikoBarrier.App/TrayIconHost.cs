@@ -12,6 +12,7 @@ namespace MikoBarrier;
 internal sealed class TrayIconHost : IDisposable
 {
     private readonly System.Windows.Forms.NotifyIcon _icon;
+    private readonly System.Drawing.Icon? _appIcon;
     private readonly ContextMenu _menu;
     private readonly MenuItem _openItem;
     private readonly MenuItem _startFocusItem;
@@ -43,9 +44,10 @@ internal sealed class TrayIconHost : IDisposable
         _exitItem = CreateItem("退出 MikoBarrier", exit);
         _menu.Items.Add(_exitItem);
 
+        _appIcon = LoadAppIcon();
         _icon = new System.Windows.Forms.NotifyIcon
         {
-            Icon = System.Drawing.SystemIcons.Shield,
+            Icon = _appIcon ?? System.Drawing.SystemIcons.Shield,
             Text = MikoText.T("MikoBarrier · 巫女结界"),
             Visible = false,
         };
@@ -151,6 +153,25 @@ internal sealed class TrayIconHost : IDisposable
         });
     }
 
+    /// <summary>托盘图标优先用应用图标（Assets\MikoBarrier.ico），取不到时退回系统盾牌。</summary>
+    private static System.Drawing.Icon? LoadAppIcon()
+    {
+        using var stream = AppIcon.OpenIconStream();
+        if (stream is null)
+        {
+            return null;
+        }
+
+        try
+        {
+            return new System.Drawing.Icon(stream, System.Windows.Forms.SystemInformation.SmallIconSize);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
     private static Window CreateMenuAnchor() => new()
     {
         Width = 1,
@@ -190,5 +211,6 @@ internal sealed class TrayIconHost : IDisposable
         _menuAnchor = null;
         _icon.Visible = false;
         _icon.Dispose();
+        _appIcon?.Dispose();
     }
 }

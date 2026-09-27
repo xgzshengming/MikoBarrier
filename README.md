@@ -4,7 +4,7 @@ Windows 上的强制性自律工具（强约束模式，参考手机端番茄类
 `v0.6.0-Miko - 巫女模式：裂缝三连击解锁 + 逐条巫女口吻帮助 / 引导 + 自动套用「真·巫女」白底朱红主题 + 双进程互保 + Kill 递进欠债 + 提前退出欠债 120 分钟封顶按月清空 + 密码冷却 / 恢复码本机副本`
 
 > **当前源码版本**：`v0.6.0-Miko`，版本标记 `0.6.0-Miko`。
-> 当前源码自检：核心 SmokeTest **185/185**，`--ui-smoke-test` **89 OK / 0 FAIL**（隔离 `MikoBarrier_HOME`）。
+> 当前源码自检：核心 SmokeTest **185/185**，`--ui-smoke-test` **88 OK / 0 FAIL**（追加 `--keyboard-test` 为 **91 OK / 0 FAIL**，隔离 `MikoBarrier_HOME`）。
 > `app\` 目录（发布产物）已被 `.gitignore` 排除，分发走 [Releases](../../releases)；旧版 v0.5.0 已单独备份。
 
 > **⚠️ 使用前请阅读**：MikoBarrier 是**给自己用的强制自律工具**，不是家长控制 / 员工监控软件。它会做这些事：全局键盘封锁（吞掉 Alt+Tab / Win / Alt+F4 / Ctrl+Shift+Esc）、结束名单内的进程、改写 hosts、必要时禁用网卡、写开机自启与计划任务、以管理员权限运行。**请只在你自己拥有、且你有权管理的电脑上，对你自己使用。**
@@ -55,6 +55,7 @@ Windows 上的强制性自律工具（强约束模式，参考手机端番茄类
 - **自绘勾选 / 单选**：圆角方框 + 圆头勾线、圆环 + 内部圆点，全部跟随主题强调色，不再使用系统默认的方框 / 圆圈
 - **自绘对话框**：提示、确认、选择、密码、找回密码、选程序全部是应用内自绘，不再是系统 MessageBox 的老式外观
 - **托盘**：可开关；左键单击直接打开主界面，右键是跟随主题的 WPF 自绘菜单；关闭窗口时静默最小化到托盘（不再弹系统通知）
+- **应用图标**：exe / 窗口 / 任务栏（含最小化）/ 托盘统一使用 `Assets\MikoBarrier.ico`，桌面快捷方式与资源管理器也同步；图标由 `tools\make-icon.ps1` 从母图 `Assets\MikoBarrier.png` 生成，改图后重跑脚本再发布即可
 - **全屏背景图（v0.4.0）**：全屏计时右下角「背景」可切换 10 张 CC0 / Public Domain 背景图；主卡片可点「收起」只留顶部迷你计时条；素材授权见 `docs/素材许可.md`。
 - **巫女模式（源码已完成）**：全屏计时左下角会出现一条很淡的「裂缝」，在本次全屏计时内累计点击 3 次会弹出「你引起了巫女小姐的注意！是否进入真·巫女结界？」；确认后进入巫女模式，裂缝永久隐藏，并自动套用「真·巫女」主题。帮助 / 引导为逐条重写的巫女版全文；系统设置 → 外观与启动里可随时切回普通模式。普通 / 巫女都不改变关机、注销、逃生按钮等安全行为。
 
@@ -137,8 +138,9 @@ Windows 上的强制性自律工具（强约束模式，参考手机端番茄类
  tools\publish.ps1       发布脚本（自包含单文件 -> app\）
  tools\install-dotnet.ps1 + dotnet-install.ps1   便携 .NET SDK 安装（微软官方脚本）
  tools\whitelist-audit.ps1 / .cmd                便携白名单体检（只读）
- src\MikoBarrier.App\Assets  全屏背景图 / 缩略图资源
- docs\素材许可.md             全屏背景素材来源与授权
+ tools\make-icon.ps1                            应用图标生成（母图 -> 多尺寸 ico）
+ src\MikoBarrier.App\Assets  全屏背景图 / 缩略图 / 应用图标资源
+ docs\素材许可.md             全屏背景与图标素材来源、授权
  LICENSE / NOTICE        Apache-2.0 全文与第三方署名
 
  app\                    发布产物：被 .gitignore 排除，走 Releases 分发
@@ -169,12 +171,12 @@ powershell -ExecutionPolicy Bypass -File .\tools\publish.ps1
 # 便携体检：把整个 app 目录复制到目标电脑，双击 whitelist-audit.cmd（只读，报告在 audit-home\logs）
 
 # 界面自检：逐个构造并打开所有窗口 + 新功能探测，结果写入 logs\ui-smoke-test.log
-# 当前基线：89 OK / 0 FAIL（必须隔离 MikoBarrier_HOME，避免写入真实 data）
+# 当前基线：88 OK / 0 FAIL（必须隔离 MikoBarrier_HOME，避免写入真实 data）
 .\app\MikoBarrier.App.exe --ui-smoke-test
 # 开发期也可以用源码版（与 app\ 发布版同版本）：
 # .\src\MikoBarrier.App\bin\Release\net8.0-windows\MikoBarrier.App.exe --ui-smoke-test --keyboard-test --elevated-attempt
 
-# 可选：注入按键验证 Alt+Tab 被吞 / Win 键放行
+# 可选：注入按键验证 Alt+Tab 被吞 / Win 键放行（追加后基线 91 OK / 0 FAIL）
 .\app\MikoBarrier.App.exe --ui-smoke-test --keyboard-test
 
 # 若 config.json 里 startElevated=true 而当前没有提权，加 --elevated-attempt 跳过自动提权重启
@@ -201,18 +203,19 @@ powershell -ExecutionPolicy Bypass -File .\tools\publish.ps1
 | --- | --- | --- |
 | 每轮任务安排（同一任务跨轮 / 单轮多任务） | 已完成 | `--ui-smoke-test`：LastPlan 多轮还原、首轮任务名；引擎探针验证多任务均分 |
 | 分轮时长（统一 / 每轮单独设置） | 已完成 | `--ui-smoke-test`：10/20/30 分钟三轮还原；引擎探针验证每轮计时 |
-| 任务模式：统一任务勾选（全部轮次都使用同一组任务） | 已完成 | `--ui-smoke-test`：勾选隐藏逐轮列表 / 显示统一入口 / 计划 UniformTasks 标记 / 取消恢复；当前 89 OK / 0 FAIL |
-| 主题对话框预设区滚轮（ListBox 吞滚轮修复） | 已完成 | `--ui-smoke-test`：模拟滚轮后外层页面 offset 前进；当前 89 OK / 0 FAIL |
-| 大按钮间距（自律统计 / 系统设置） | 已完成 | `--ui-smoke-test`：统计 / 设置入口按钮左右间距 7+7px；当前 89 OK / 0 FAIL |
+| 任务模式：统一任务勾选（全部轮次都使用同一组任务） | 已完成 | `--ui-smoke-test`：勾选隐藏逐轮列表 / 显示统一入口 / 计划 UniformTasks 标记 / 取消恢复；当前 88 OK / 0 FAIL |
+| 主题对话框预设区滚轮（ListBox 吞滚轮修复） | 已完成 | `--ui-smoke-test`：模拟滚轮后外层页面 offset 前进；当前 88 OK / 0 FAIL |
+| 大按钮间距（自律统计 / 系统设置） | 已完成 | `--ui-smoke-test`：统计 / 设置入口按钮左右间距 7+7px；当前 88 OK / 0 FAIL |
 | 结束战报按任务汇总 | 已完成 | `--ui-smoke-test`：任务行格式断言；实现按 `TaskAwards` 输出 |
 | 任务成绩写回 tasks.json | 已完成 | AppState 临时探针：A=2 轮/1200 秒，B=1 轮/600 秒 |
 | 批量选择 / 批量添加 | 已完成 | `--ui-smoke-test`：选程序多选、名单多选、任务清单多选 + 按行添加 |
 | 一行输入框滚轮穿透 | 已完成 | `--ui-smoke-test`：合成滚轮 0 -> 40 |
 | 统计页本周 / 本月 / 任务聚合 | 已完成 | `--ui-smoke-test`：汇总文本生成 |
 | 界面重构 / 首启引导 / 帮助 | 已完成 | 快速开始 / 任务模式 / 强制策略 / 断网档位四入口；名单三入口；统计两子界面；系统设置子界面；首次启动欢迎 + 按功能点击分步引导；标题栏问号帮助中心；界面版本号动态读取；入口纵向居中；批量列表支持全选 / 取消选择 |
-| 自定义主题（10 套预设 + 巫女解锁第 11 套 + 界面字体 + 窗口背景色） | 已完成 | `--ui-smoke-test`：预设完整性 / 对比度 / 旧字段回退 / 资源生成 / 动态替换 / 两个入口就位 / 字体列表仅中文字体 / 默认等线；当前 89 OK / 0 FAIL |
-| 勾选 / 单选自绘样式（任务模式 / 强制策略 / 断网档位 / 系统设置） | 已完成 | `--ui-smoke-test`：模板结构 + 实际页面套用探针；当前 89 OK / 0 FAIL |
+| 自定义主题（10 套预设 + 巫女解锁第 11 套 + 界面字体 + 窗口背景色） | 已完成 | `--ui-smoke-test`：预设完整性 / 对比度 / 旧字段回退 / 资源生成 / 动态替换 / 两个入口就位 / 字体列表仅中文字体 / 默认等线；当前 88 OK / 0 FAIL |
+| 勾选 / 单选自绘样式（任务模式 / 强制策略 / 断网档位 / 系统设置） | 已完成 | `--ui-smoke-test`：模板结构 + 实际页面套用探针；当前 88 OK / 0 FAIL |
 | 托盘菜单 WPF 化 + 左键单击打开主界面 | 已完成 | `--ui-smoke-test`：菜单结构 / 样式解析 / 开合探针 |
+| 应用图标（exe / 窗口 / 任务栏 / 最小化 / 托盘） | 已完成 | `tools\make-icon.ps1` 从 `Assets\MikoBarrier.png` 生成 10 尺寸 `Assets\MikoBarrier.ico`；`--ui-smoke-test`：窗口图标 256x256 + 托盘 ico 资源流探针通过 |
 | 白名单系统保护（系统核心 / 内置组件 / 系统目录） | 已完成 | SmokeTest 13.1/13.2：22 项；真机体检 19/19 运行中宿主放行 |
 | 白名单启动链路（父子 / 祖先 / 防绕过） | 已完成 | SmokeTest 13.3：10 项（含环形父子、explorer / cmd 不放行、文件夹规则） |
 | 脏机档案兼容（输入法 / 杀软 / 显卡 / 后台服务 / COM / 计划任务） | 已完成 | SmokeTest 13.4：9 项；真机约 250 进程，仅 4 个有窗口程序会被拦截 |
@@ -224,11 +227,11 @@ powershell -ExecutionPolicy Bypass -File .\tools\publish.ps1
 | 密码提前退出冷却（1h / 2h / 第 3 次冻结，次日清零） | 已完成 | SmokeTest 第 15 节：三次冷却状态机、跨天清零、重设密码不解除冷却 |
 | 恢复码提前退出 / 本机副本 / 忘记密码 | 已完成 | SmokeTest：DPAPI 往返、恢复码每天 1 次；`--ui-smoke-test`：恢复码对话框、忘记密码恢复码入口 |
 | 启动窗口置前（不常驻 Topmost） | 已完成 | `--ui-smoke-test`：MainWindow 一次性请求、最终 `Topmost=false`；全屏计时仍 `Topmost=false` |
-| 全屏背景图（v0.4.0） | 已完成 | `--ui-smoke-test`：10 背景 + 缩略图、卡片收起 / 展开、退出弹窗期间遮罩不覆盖；当前 89 OK / 0 FAIL |
-| 巫女模式文本口吻（主界面 / 全屏计时 / 设置 / 弹窗） | 已完成 | `--ui-smoke-test`：173 条静态映射、动态润色、运行时切换 / 还原、真实主窗口标题与导航；当前 89 OK / 0 FAIL |
+| 全屏背景图（v0.4.0） | 已完成 | `--ui-smoke-test`：10 背景 + 缩略图、卡片收起 / 展开、退出弹窗期间遮罩不覆盖；当前 88 OK / 0 FAIL |
+| 巫女模式文本口吻（主界面 / 全屏计时 / 设置 / 弹窗） | 已完成 | `--ui-smoke-test`：173 条静态映射、动态润色、运行时切换 / 还原、真实主窗口标题与导航；当前 88 OK / 0 FAIL |
 | 全屏裂缝三连击解锁（无边框低透明度细裂） + 自动套用主题 | 已完成 | `--ui-smoke-test`：裂缝入口可见、三次 Click 后解锁、隐藏并自动套用真·巫女主题（自检跳过确认框）；SmokeTest 第 16 节：解锁策略 5 项 |
 | 「真·巫女」主题（白底 + 高饱和橙粉朱红） | 已完成 | `--ui-smoke-test`：白底 / 朱红 / 未解锁不可选；进入巫女模式自动套用；主题对话框 10 → 11 套 |
-| 帮助 / 引导逐条巫女口吻重写 | 已完成 | `--ui-smoke-test`：20 个 topic 全部有独立巫女标题与正文，正文逐条不同且保留功能说明；当前 89 OK / 0 FAIL |
+| 帮助 / 引导逐条巫女口吻重写 | 已完成 | `--ui-smoke-test`：20 个 topic 全部有独立巫女标题与正文，正文逐条不同且保留功能说明；当前 88 OK / 0 FAIL |
 
 | 发布（自包含单文件，v0.6.0-Miko） | 已完成 | `MikoBarrier.App.exe` 75,290,907 字节（约 71.8 MB，含 10 张背景 + 10 张缩略图）+ `MikoBarrier.Guard.exe` 35,146,144 字节（约 33.5 MB）；ProductVersion 0.6.0-Miko；发布版 UI 自检 89 OK / 0 FAIL，关机自检 exit=0；发布于 2026-09-28 00:31；裂缝入口为无边框、低透明度细裂 |
 | 核心逻辑 SmokeTest | 185/185 通过 | `dotnet run --project tools\SmokeTest ...`（发布前已复跑全绿） |

@@ -42,6 +42,19 @@ public partial class App : Application
             a.Equals("--ui-smoke-test", StringComparison.OrdinalIgnoreCase) ||
             a.Equals("--shutdown-smoke-test", StringComparison.OrdinalIgnoreCase));
 
+        // 窗口级图标统一用 AppIcon：主窗口在构造时直接赋值，这里兜底对话框 / 全屏遮罩等其余窗口，
+        // 保证任务栏、Alt+Tab 和最小化后的图标都一致。
+        EventManager.RegisterClassHandler(
+            typeof(Window),
+            FrameworkElement.LoadedEvent,
+            new RoutedEventHandler((sender, _) =>
+            {
+                if (sender is Window window && window.Icon is null)
+                {
+                    window.Icon = AppIcon.WindowIcon;
+                }
+            }));
+
         DispatcherUnhandledException += (_, args) =>
         {
             LogException("DispatcherUnhandledException", args.Exception);
@@ -475,6 +488,18 @@ public partial class App : Application
 
     private static void AddFeatureProbes(List<string> results)
     {
+        // 应用图标：exe 图标由 csproj 指定，窗口 / 托盘从嵌入的 Assets\MikoBarrier.ico 读取。
+        var appIcon = AppIcon.WindowIcon;
+        results.Add(appIcon is null
+            ? "FAIL 应用图标(窗口图标资源缺失)"
+            : $"OK   应用图标(窗口 {appIcon.Width:0}x{appIcon.Height:0})");
+
+        using (var iconStream = AppIcon.OpenIconStream())
+        {
+            results.Add(iconStream is null || iconStream.Length == 0
+                ? "FAIL 应用图标(托盘 ico 资源流为空)"
+                : "OK   应用图标(托盘 ico 资源流可读)");
+        }
 
         try
         {

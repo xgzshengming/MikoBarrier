@@ -9,6 +9,8 @@
     <RootNamespace>MikoBarrier</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <SatelliteResourceLanguages>zh-Hans</SatelliteResourceLanguages>
+    <!-- exe 文件图标：资源管理器 / 快捷方式 / 任务管理器都取它。 -->
+    <ApplicationIcon>Assets\MikoBarrier.ico</ApplicationIcon>
     <!-- WFAC010：WinForms 分析器建议把高 DPI 设置搬到 csproj，但本项目是 WPF 为主，
          高 DPI 仍按 WPF 的推荐方式写在 app.manifest 里。 -->
     <NoWarn>$(NoWarn);WFAC010</NoWarn>
@@ -29,6 +31,9 @@
     <!-- 全屏背景图资源嵌入 App.exe，便携体检复制整个 app 目录时无需额外文件。 -->
     <Resource Include="Assets\Backgrounds\*.jpg" />
     <Resource Include="Assets\Thumbnails\*.jpg" />
+    <!-- 窗口 / 任务栏 / 最小化 / 托盘图标；同一份 ico 也作为 exe 图标（见 ApplicationIcon）。
+         Assets\MikoBarrier.png 只是生成 ico 的母图，不参与编译。 -->
+    <Resource Include="Assets\MikoBarrier.ico" />
   </ItemGroup>
 
 </Project>

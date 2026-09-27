@@ -26,6 +26,9 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
 
+        // 任务栏 / 最小化时显示应用图标（exe 图标之外的兜底，保证窗口级图标一致）。
+        Icon = AppIcon.WindowIcon;
+
         ContentHost.Content = _focusView;
         VersionText.Text = AppInfo.DisplayVersion;
         TitleBar.HelpRequested += (_, _) => ShowHelp();

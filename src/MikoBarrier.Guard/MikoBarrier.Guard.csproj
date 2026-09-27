@@ -7,6 +7,8 @@
     <RootNamespace>MikoBarrier.Guard</RootNamespace>
     <UseWPF>false</UseWPF>
     <UseWindowsForms>false</UseWindowsForms>
+    <!-- 看门狗进程没有界面，但 exe 也复用 App 项目里的同一份应用图标。 -->
+    <ApplicationIcon>..\MikoBarrier.App\Assets\MikoBarrier.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
