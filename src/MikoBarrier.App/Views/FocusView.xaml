@@ -1,0 +1,187 @@
+<UserControl x:Class="MikoBarrier.Views.FocusView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid Margin="28">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="440" />
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" FocusVisualStyle="{x:Null}">
+            <Grid>
+                <!-- 功能选择主页：具体设置收进四个大按键 -->
+                <StackPanel x:Name="SetupHubPanel">
+                    <TextBlock Text="自律结界" Style="{StaticResource H1}" Margin="0,0,0,16" />
+
+                    <StackPanel>
+                        <Button x:Name="HubQuickButton" Style="{StaticResource HubButton}" Click="HubQuick_Click">
+                            <StackPanel>
+                                <TextBlock HorizontalAlignment="Center" Text="快速开始" FontWeight="SemiBold" FontSize="15" />
+                                <TextBlock Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,4,0,0"
+                                           HorizontalAlignment="Center" Text="选择时长并直接开始单轮自律" />
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="HubTaskButton" Style="{StaticResource HubButton}" Click="HubTask_Click">
+                            <StackPanel>
+                                <TextBlock HorizontalAlignment="Center" Text="任务模式" FontWeight="SemiBold" FontSize="15" />
+                                <TextBlock Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,4,0,0"
+                                           HorizontalAlignment="Center" Text="选择轮数、每轮时长与任务" />
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="HubPolicyButton" Style="{StaticResource HubButton}" Click="HubPolicy_Click">
+                            <StackPanel>
+                                <TextBlock HorizontalAlignment="Center" Text="强制策略" FontWeight="SemiBold" FontSize="15" />
+                                <TextBlock Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,4,0,0"
+                                           HorizontalAlignment="Center" Text="应用屏蔽 / 键盘封锁 / 全屏计时" />
+                            </StackPanel>
+                        </Button>
+
+                        <Button x:Name="HubNetworkButton" Style="{StaticResource HubButton}" Click="HubNetwork_Click">
+                            <StackPanel>
+                                <TextBlock HorizontalAlignment="Center" Text="断网档位" FontWeight="SemiBold" FontSize="15" />
+                                <TextBlock Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,4,0,0"
+                                           HorizontalAlignment="Center" Text="不断网 / 温和档 / 狠人档" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+
+                    <TextBlock x:Name="PlanSummaryText" Style="{StaticResource Muted}"
+                               TextWrapping="Wrap" Margin="2,4,2,0" />
+                </StackPanel>
+
+                <!-- 子界面 -->
+                <StackPanel x:Name="SetupDetailPanel" Visibility="Collapsed">
+                    <Button x:Name="BackToHubButton" Content="&#x2190; 返回功能选择"
+                            HorizontalAlignment="Left" Click="BackToHub_Click" Margin="0,0,0,10" />
+                    <TextBlock x:Name="DetailTitleText" Style="{StaticResource H1}" />
+                    <TextBlock x:Name="DetailHintText" Style="{StaticResource Muted}" TextWrapping="Wrap"
+                               Margin="0,4,0,14" />
+
+                    <!-- 快速开始：只保留时长 -->
+                    <StackPanel x:Name="QuickPagePanel" Visibility="Collapsed">
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="时长" FontWeight="SemiBold" />
+                                <ContentControl x:Name="QuickDurationHost" Margin="0,10,0,0">
+                                    <StackPanel x:Name="DurationEditor" Orientation="Horizontal">
+                                        <ComboBox x:Name="PresetBox" Width="120" SelectionChanged="PresetBox_SelectionChanged" />
+                                        <TextBlock Text="自定义" VerticalAlignment="Center" Margin="16,0,8,0" />
+                                        <TextBox x:Name="CustomMinutesBox" Width="64" Text="25" />
+                                        <TextBlock Text="分钟" VerticalAlignment="Center" Margin="8,0,0,0" />
+                                    </StackPanel>
+                                </ContentControl>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- 任务模式：轮数、休息、每轮任务与每轮时长 -->
+                    <StackPanel x:Name="TaskPagePanel" Visibility="Collapsed">
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="轮次与休息" FontWeight="SemiBold" />
+                                <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                    <TextBlock Text="轮数" VerticalAlignment="Center" Width="52" />
+                                    <ComboBox x:Name="RoundsBox" Width="110" SelectionChanged="RoundsBox_SelectionChanged" />
+                                    <TextBlock Text="中场休息" VerticalAlignment="Center" Margin="18,0,10,0" />
+                                    <ComboBox x:Name="BreakBox" Width="150" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource Card}" Margin="0,14,0,0">
+                            <StackPanel>
+                                <TextBlock Text="每轮时长" FontWeight="SemiBold" />
+                                <CheckBox x:Name="UniformDurationCheck" Margin="0,10,0,0"
+                                          Content="全部轮次都使用同一时长"
+                                          Click="UniformDurationCheck_Click" />
+                                <ContentControl x:Name="TaskUniformDurationHost" Margin="0,8,0,0" />
+                            </StackPanel>
+                        </Border>
+
+                        <Border Style="{StaticResource Card}" Margin="0,14,0,0">
+                            <StackPanel>
+                                <TextBlock Text="每轮任务安排（可选）" FontWeight="SemiBold" />
+                                <CheckBox x:Name="UniformTaskCheck" Margin="0,10,0,0"
+                                          Content="全部轮次都使用同一组任务"
+                                          Click="UniformTaskCheck_Click" />
+                                <Button x:Name="ApplyTasksToAllButton" Content="未关联任务"
+                                        HorizontalAlignment="Left" Margin="0,8,0,0" Visibility="Collapsed"
+                                        Click="ApplyTasksToAll_Click" />
+                                <ScrollViewer x:Name="RoundTaskScroll" MaxHeight="290" VerticalScrollBarVisibility="Auto" Margin="0,8,0,0">
+                                    <StackPanel x:Name="RoundPlanPanel" />
+                                </ScrollViewer>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- 强制策略 -->
+                    <StackPanel x:Name="PolicyPagePanel" Visibility="Collapsed">
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="应用与键盘" FontWeight="SemiBold" />
+                                <CheckBox x:Name="BlockAppsCheck" Content="黑名单模式（阻止黑名单中的程序运行）" IsChecked="True" />
+                                <CheckBox x:Name="WhitelistCheck" Content="白名单模式（只允许白名单中的程序运行）" />
+                                <CheckBox x:Name="KeyboardCheck" Content="键盘封锁" IsChecked="True" />
+                                <CheckBox x:Name="OverlayCheck" Content="全屏计时（自律期间显示全屏倒计时，不影响使用其他程序）" IsChecked="True" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- 断网档位 -->
+                    <StackPanel x:Name="NetworkPagePanel" Visibility="Collapsed">
+                        <Border Style="{StaticResource Card}">
+                            <StackPanel>
+                                <TextBlock Text="断网档位（休息时间同样生效）" FontWeight="SemiBold" />
+                                <RadioButton x:Name="NetworkOffRadio" GroupName="Network" Content="不断网" IsChecked="True"
+                                             Margin="0,10,0,0" Checked="NetworkTier_Checked" />
+                                <RadioButton x:Name="NetworkGentleRadio" GroupName="Network" Checked="NetworkTier_Checked">
+                                    <TextBlock TextWrapping="Wrap" Text="温和档：只屏蔽网站名单（hosts，需要管理员）" />
+                                </RadioButton>
+                                <RadioButton x:Name="NetworkHardcoreRadio" GroupName="Network" Checked="NetworkTier_Checked">
+                                    <TextBlock TextWrapping="Wrap" Text="狠人档：直接禁用网卡，整机断网（需要管理员）" />
+                                </RadioButton>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+
+        <!-- 右侧：计时与开始 / 结束按钮始终可见 -->
+        <Border Grid.Column="2" Style="{StaticResource Card}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0">
+                    <TextBlock x:Name="PhaseText" FontSize="14" Foreground="{DynamicResource Brush.SubText}" Text="未开始" />
+                    <TextBlock x:Name="RoundText" Style="{StaticResource Muted}" Text="" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock x:Name="CountdownText" Text="25:00" Width="360" FontSize="92" FontWeight="Bold"
+                               FontFamily="Segoe UI" TextAlignment="Center" HorizontalAlignment="Center" />
+                    <ProgressBar x:Name="Progress" Height="10" Width="360" Margin="0,16,0,0" Minimum="0" Maximum="100" Value="0" />
+                    <TextBlock x:Name="DebtText" Style="{StaticResource Muted}" Margin="0,14,0,0" HorizontalAlignment="Center" />
+                    <TextBlock x:Name="KeyboardStatusText" Style="{StaticResource Muted}" Margin="0,8,0,0" HorizontalAlignment="Center" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="2">
+                    <StackPanel Orientation="Horizontal">
+                        <Button x:Name="StartButton" Content="开始自律" Style="{StaticResource PrimaryButton}" Click="StartButton_Click" />
+                        <Button x:Name="AbortButton" Content="提前结束（需密码）" Style="{StaticResource DangerButton}" Click="AbortButton_Click" IsEnabled="False" />
+                        <Button x:Name="RecoveryAbortButton" Content="用恢复码提前结束" Click="RecoveryAbortButton_Click" IsEnabled="False" />
+                    </StackPanel>
+                    <TextBlock x:Name="StatusText" Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,10,0,0" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

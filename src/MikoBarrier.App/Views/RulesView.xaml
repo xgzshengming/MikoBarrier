@@ -1,0 +1,109 @@
+<UserControl x:Class="MikoBarrier.Views.RulesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" FocusVisualStyle="{x:Null}">
+        <StackPanel Margin="28">
+            <!-- 名单管理主页：三个入口 -->
+            <StackPanel x:Name="RulesHubPanel">
+                <TextBlock HorizontalAlignment="Center" TextAlignment="Center" Text="名单管理" Style="{StaticResource H1}" />
+                <TextBlock HorizontalAlignment="Center" TextAlignment="Center" Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,4,0,16"
+                           Text="选择要管理的名单。名单只在自律进行中生效，开始后不能修改。" />
+
+                <StackPanel Width="560" HorizontalAlignment="Center">
+                    <Button x:Name="HubBlackButton" Style="{StaticResource HubButton}" Click="HubBlack_Click">
+                        <StackPanel>
+                            <TextBlock HorizontalAlignment="Center" Text="黑名单" FontWeight="SemiBold" FontSize="15" />
+                            <TextBlock Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,4,0,0"
+                                       HorizontalAlignment="Center" Text="清单内的程序会被拦截" />
+                        </StackPanel>
+                    </Button>
+
+                    <Button x:Name="HubWhiteButton" Style="{StaticResource HubButton}" Click="HubWhite_Click">
+                        <StackPanel>
+                            <TextBlock HorizontalAlignment="Center" Text="白名单" FontWeight="SemiBold" FontSize="15" />
+                            <TextBlock Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,4,0,0"
+                                       HorizontalAlignment="Center" Text="只允许名单内程序运行" />
+                        </StackPanel>
+                    </Button>
+
+                    <Button x:Name="HubSitesButton" Style="{StaticResource HubButton}" Click="HubSites_Click">
+                        <StackPanel>
+                            <TextBlock HorizontalAlignment="Center" Text="要屏蔽的网站" FontWeight="SemiBold" FontSize="15" />
+                            <TextBlock Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,4,0,0"
+                                       HorizontalAlignment="Center" Text="hosts 网站名单，配合断网档位" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- 子界面 -->
+            <StackPanel x:Name="RulesDetailPanel" Visibility="Collapsed">
+                <Button x:Name="BackToRulesHubButton" Content="&#x2190; 返回名单管理"
+                        HorizontalAlignment="Left" Click="BackToRulesHub_Click" Margin="0,0,0,10" />
+                <TextBlock x:Name="RulesDetailTitleText" Style="{StaticResource H1}" />
+                <TextBlock x:Name="RulesDetailHintText" Style="{StaticResource Muted}" TextWrapping="Wrap"
+                           Margin="0,4,0,14" />
+
+                <!-- 黑名单 -->
+                <StackPanel x:Name="BlackPagePanel" Visibility="Collapsed">
+                    <ContentControl x:Name="BlackToolbarHost">
+                        <WrapPanel x:Name="AddProgramToolbar">
+                            <Button x:Name="AddRunningButton" Content="从运行中的程序添加&#x2026;" Click="AddRunningButton_Click" />
+                            <Button x:Name="AddExeButton" Content="浏览 exe 添加&#x2026;" Click="AddExeButton_Click" />
+                            <Button x:Name="AddFolderButton" Content="按文件夹添加&#x2026;" Click="AddFolderButton_Click" />
+                            <Button x:Name="RemoveButton" Content="移除选中项" Style="{StaticResource DangerButton}" Click="RemoveButton_Click" />
+                            <Button x:Name="SelectAllRulesButton" Content="全选" Click="SelectAllRules_Click" />
+                            <Button x:Name="ClearRulesSelectionButton" Content="取消选择" Click="ClearRulesSelection_Click" />
+                            <Button x:Name="DiagnoseButton" Content="检查拦截规则" Click="DiagnoseButton_Click" />
+                            <Button x:Name="AuditWhitelistButton" Content="白名单体检（导出报告）" Click="AuditWhitelistButton_Click" />
+                        </WrapPanel>
+                    </ContentControl>
+
+                    <Border Style="{StaticResource Card}" Margin="0,14,0,0">
+                        <StackPanel>
+                            <TextBlock x:Name="BlackTitle" HorizontalAlignment="Center" Text="黑名单" FontWeight="SemiBold" />
+                            <ListBox x:Name="BlackList" Height="320" Margin="0,10,0,0" SelectionMode="Extended" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- 白名单 -->
+                <StackPanel x:Name="WhitePagePanel" Visibility="Collapsed">
+                    <ContentControl x:Name="WhiteToolbarHost" />
+
+                    <Border Style="{StaticResource Card}" Margin="0,14,0,0">
+                        <StackPanel>
+                            <TextBlock Text="一键白名单" FontWeight="SemiBold" />
+                            <Button x:Name="OneKeyWhitelistButton" Content="扫描当前运行的程序并批量加入"
+                                    HorizontalAlignment="Left" Margin="0,10,0,0" Style="{StaticResource PrimaryButton}"
+                                    Click="OneKeyWhitelistButton_Click" />
+                        </StackPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource Card}" Margin="0,14,0,0">
+                        <StackPanel>
+                            <TextBlock x:Name="WhiteTitle" HorizontalAlignment="Center" Text="白名单" FontWeight="SemiBold" />
+                            <ListBox x:Name="WhiteList" Height="320" Margin="0,10,0,0" SelectionMode="Extended" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- 网站名单 -->
+                <StackPanel x:Name="SitesPagePanel" Visibility="Collapsed">
+                    <Border Style="{StaticResource Card}">
+                        <StackPanel>
+                            <TextBlock Text="要屏蔽的网站（每行一个域名，可带 https://）" FontWeight="SemiBold" />
+                            <TextBox x:Name="SitesBox" Height="200" Margin="0,10,0,0" AcceptsReturn="True"
+                                     VerticalScrollBarVisibility="Auto" FontFamily="Consolas" />
+                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                <Button x:Name="SaveSitesButton" Content="保存网站名单" Click="SaveSitesButton_Click" />
+                                <TextBlock x:Name="SitesHint" Style="{StaticResource Muted}" VerticalAlignment="Center" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

@@ -1,0 +1,23 @@
+# ===== 构建产物 =====
+bin/
+obj/
+*.user
+*.suo
+
+# ===== 运行时数据（含个人隐私，切勿提交）=====
+# 程序会在这里写入 config.json（含密码 / 安全问题哈希 / 名单）、stats.json、
+# tasks.json、patrol-log.json、session.lock、recovery-code.dat、incidents\、runtime\
+# 以及 logs\ 下的日志；backups\ 是历史快照，同样含上述内容。
+/data/
+/logs/
+/backups/
+
+# 便携白名单体检的输出目录（whitelist-audit.ps1 会在脚本同级创建）
+audit-home/
+
+# ===== 已发布的单文件程序（约 105 MB，走 GitHub Releases 分发，不入库）=====
+/app/
+
+# ===== 本机专属覆盖配置与临时下载物 =====
+tools/*.local.ps1
+tools/*.zip

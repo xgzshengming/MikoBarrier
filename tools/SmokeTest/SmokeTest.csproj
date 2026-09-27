@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <AssemblyName>MikoBarrier.SmokeTest</AssemblyName>
+    <RootNamespace>MikoBarrier.SmokeTest</RootNamespace>
+    <UseWPF>false</UseWPF>
+    <UseWindowsForms>false</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\MikoBarrier.Core\MikoBarrier.Core.csproj" />
+    <!-- 第 9 / 10 节的真拦截测试需要一个靶子进程。这里只负责把它编译出来
+         （ReferenceOutputAssembly=false：不引用它的程序集，只借用构建顺序）。 -->
+    <ProjectReference Include="..\PatrolVictim\PatrolVictim.csproj" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+</Project>

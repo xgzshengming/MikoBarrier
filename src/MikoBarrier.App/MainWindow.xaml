@@ -1,0 +1,73 @@
+<Window x:Class="MikoBarrier.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:MikoBarrier.Controls"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+        Title="MikoBarrier &#xB7; 巫女结界" Height="820" Width="1240"
+        MinHeight="660" MinWidth="1020"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None" ResizeMode="CanResize"
+        FontFamily="{DynamicResource Font.UI}"
+        Background="{DynamicResource Brush.Window}"
+        Foreground="{DynamicResource Brush.Text}">
+
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome CaptionHeight="0" ResizeBorderThickness="6"
+                            GlassFrameThickness="0" CornerRadius="0" UseAeroCaptionButtons="False" />
+    </shell:WindowChrome.WindowChrome>
+
+    <Border x:Name="RootBorder"
+            Background="{DynamicResource Brush.Window}"
+            BorderBrush="{DynamicResource Brush.Border}"
+            BorderThickness="1"
+            CornerRadius="14">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <controls:WindowTitleBar x:Name="TitleBar" Grid.Row="0" Title="MikoBarrier &#xB7; 巫女结界" />
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="236" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0"
+                        Background="{DynamicResource Brush.Panel}"
+                        BorderBrush="{DynamicResource Brush.Border}"
+                        BorderThickness="0,0,1,0"
+                        CornerRadius="0,0,0,13">
+                    <DockPanel Margin="16,10,16,16">
+                        <StackPanel DockPanel.Dock="Bottom">
+                            <Button x:Name="ThemeButton" Content="自定义主题" Click="ThemeButton_Click" />
+                            <TextBlock x:Name="AdminHint" Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="2,10,2,0" />
+                        </StackPanel>
+
+                        <StackPanel>
+                            <TextBlock Text="MikoBarrier" FontSize="22" FontWeight="Bold"
+                                       Foreground="{DynamicResource Brush.Accent}" />
+                            <TextBlock Text="巫女结界 &#xB7; 强制自律" Style="{StaticResource Muted}" Margin="0,3,0,2" />
+                            <TextBlock x:Name="VersionText" Style="{StaticResource Muted}" Margin="0,0,0,22" />
+
+                            <RadioButton x:Name="NavFocus" GroupName="Nav" Style="{StaticResource NavButton}"
+                                         Content="自律结界" IsChecked="True" Tag="focus" Click="Nav_Click" />
+                            <RadioButton x:Name="NavRules" GroupName="Nav" Style="{StaticResource NavButton}"
+                                         Content="名单管理" Tag="rules" Click="Nav_Click" />
+                            <RadioButton x:Name="NavTasks" GroupName="Nav" Style="{StaticResource NavButton}"
+                                         Content="任务清单" Tag="tasks" Click="Nav_Click" />
+                            <RadioButton x:Name="NavStats" GroupName="Nav" Style="{StaticResource NavButton}"
+                                         Content="自律统计" Tag="stats" Click="Nav_Click" />
+                            <RadioButton x:Name="NavSettings" GroupName="Nav" Style="{StaticResource NavButton}"
+                                         Content="系统设置" Tag="settings" Click="Nav_Click" />
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+
+                <ContentControl x:Name="ContentHost" Grid.Column="1" />
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

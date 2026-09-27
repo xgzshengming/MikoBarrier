@@ -1,0 +1,20 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+      启动时的初始刷子（深色默认预设 dark-ember）。
+      运行时由 ThemeManager 动态生成同 key 的资源并整体替换，用户切换主题后这里不再生效。
+    -->
+    <FontFamily x:Key="Font.UI">DengXian</FontFamily>
+    <SolidColorBrush x:Key="Brush.Window" Color="#121317" />
+    <SolidColorBrush x:Key="Brush.Panel" Color="#1B1D22" />
+    <SolidColorBrush x:Key="Brush.Control" Color="#262A31" />
+    <SolidColorBrush x:Key="Brush.Text" Color="#F2F3F5" />
+    <SolidColorBrush x:Key="Brush.SubText" Color="#9AA1AC" />
+    <SolidColorBrush x:Key="Brush.Border" Color="#2E333C" />
+    <SolidColorBrush x:Key="Brush.Accent" Color="#FF6B45" />
+    <SolidColorBrush x:Key="Brush.AccentText" Color="#1B1D22" />
+    <SolidColorBrush x:Key="Brush.Danger" Color="#FF5C5C" />
+    <SolidColorBrush x:Key="Brush.Success" Color="#4CC38A" />
+
+</ResourceDictionary>

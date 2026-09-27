@@ -1,0 +1,52 @@
+<Window x:Class="MikoBarrier.Dialogs.AppPickerDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:MikoBarrier.Controls"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+        Title="从运行中的程序添加" Height="560" Width="720"
+        WindowStyle="None" ResizeMode="NoResize" ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner"
+        Background="{DynamicResource Brush.Panel}"
+        Foreground="{DynamicResource Brush.Text}"
+        FontFamily="{DynamicResource Font.UI}">
+
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome CaptionHeight="0" ResizeBorderThickness="0" GlassFrameThickness="0" CornerRadius="0" UseAeroCaptionButtons="False" />
+    </shell:WindowChrome.WindowChrome>
+
+    <Border Background="{DynamicResource Brush.Panel}"
+            BorderBrush="{DynamicResource Brush.Border}"
+            BorderThickness="1"
+            CornerRadius="14">
+        <DockPanel>
+            <controls:WindowTitleBar x:Name="TitleBarControl" DockPanel.Dock="Top"
+                                     Title="从运行中的程序添加" IsDialogMode="True" />
+
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="20,0,20,20">
+                <TextBlock x:Name="ErrorText" Foreground="{DynamicResource Brush.Danger}" VerticalAlignment="Center" Margin="0,0,12,0" />
+                <Button Content="取消" Click="Cancel_Click" />
+                <Button Content="添加" Style="{StaticResource PrimaryButton}" Click="Ok_Click" Margin="0" />
+            </StackPanel>
+
+            <StackPanel DockPanel.Dock="Bottom" Margin="20,14,20,0">
+                <TextBlock Style="{StaticResource Muted}" TextWrapping="Wrap"
+                           Text="选择当前正在运行的程序（按住 Ctrl / Shift 可多选）：加入黑名单（自律时拦截）或白名单（自律时只允许这些程序）。MikoBarrier 自己不会出现在列表里。" />
+                <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                    <TextBox x:Name="SearchBox" Width="280" TextChanged="SearchBox_TextChanged" />
+                    <TextBlock Text="搜索名称 / 标题" Style="{StaticResource Muted}" VerticalAlignment="Center" Margin="10,0,16,0" />
+                    <Button x:Name="RefreshButton" Content="刷新列表" Click="RefreshButton_Click" />
+                    <Button x:Name="SelectAllButton" Content="全选" Click="SelectAll_Click" />
+                    <Button x:Name="ClearSelectionButton" Content="取消选择" Click="ClearSelection_Click" Margin="0" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                    <TextBlock Text="加入：" VerticalAlignment="Center" Margin="0,0,10,0" />
+                    <RadioButton x:Name="BlackRadio" Content="黑名单" IsChecked="True" GroupName="Kind" />
+                    <RadioButton x:Name="WhiteRadio" Content="白名单" GroupName="Kind" />
+                    <TextBlock x:Name="StatusText" Style="{StaticResource Muted}" VerticalAlignment="Center" Margin="16,0,0,0" />
+                </StackPanel>
+            </StackPanel>
+
+            <ListBox x:Name="AppList" Margin="20,14,20,0" SelectionMode="Extended" />
+        </DockPanel>
+    </Border>
+</Window>

@@ -1,0 +1,40 @@
+<Window x:Class="MikoBarrier.Dialogs.MessageDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:MikoBarrier.Controls"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+        Title="MikoBarrier" Width="500" SizeToContent="Height"
+        WindowStyle="None" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True"
+        WindowStartupLocation="CenterOwner"
+        Background="{DynamicResource Brush.Panel}"
+        Foreground="{DynamicResource Brush.Text}"
+        FontFamily="{DynamicResource Font.UI}">
+
+    <shell:WindowChrome.WindowChrome>
+        <shell:WindowChrome CaptionHeight="0" ResizeBorderThickness="0" GlassFrameThickness="0" CornerRadius="0" UseAeroCaptionButtons="False" />
+    </shell:WindowChrome.WindowChrome>
+
+    <Border Background="{DynamicResource Brush.Panel}"
+            BorderBrush="{DynamicResource Brush.Border}"
+            BorderThickness="1"
+            CornerRadius="14">
+        <DockPanel LastChildFill="True">
+            <controls:WindowTitleBar x:Name="TitleBarControl" DockPanel.Dock="Top" Title="MikoBarrier" IsDialogMode="True" />
+
+            <!-- 固定底部：按钮永远可见；正文过长时只滚动正文 -->
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="24,18,24,22">
+                <Button x:Name="CancelButton" Content="取消" Click="Cancel_Click" />
+                <Button x:Name="OkButton" Content="确定" Style="{StaticResource PrimaryButton}" Click="Ok_Click" Margin="0" />
+            </StackPanel>
+
+            <ScrollViewer x:Name="MessageScroll" Margin="24,2,24,0"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock x:Name="IconText" FontSize="22" VerticalAlignment="Top" Margin="0,0,14,0" />
+                    <TextBlock x:Name="MessageText" TextWrapping="Wrap" LineHeight="22" MaxWidth="360" VerticalAlignment="Center" />
+                </StackPanel>
+            </ScrollViewer>
+        </DockPanel>
+    </Border>
+</Window>

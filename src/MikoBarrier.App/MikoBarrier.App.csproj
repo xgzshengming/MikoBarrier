@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AssemblyName>MikoBarrier.App</AssemblyName>
+    <RootNamespace>MikoBarrier</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <SatelliteResourceLanguages>zh-Hans</SatelliteResourceLanguages>
+    <!-- WFAC010：WinForms 分析器建议把高 DPI 设置搬到 csproj，但本项目是 WPF 为主，
+         高 DPI 仍按 WPF 的推荐方式写在 app.manifest 里。 -->
+    <NoWarn>$(NoWarn);WFAC010</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- 托盘用到了 WinForms 的 NotifyIcon，但只在 TrayIconHost 里写全限定名，
+         这里去掉 WinForms 的隐式 using，避免 Application / UserControl / MessageBox 命名冲突。 -->
+    <Using Remove="System.Windows.Forms" />
+    <Using Remove="System.Drawing" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MikoBarrier.Core\MikoBarrier.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- 全屏背景图资源嵌入 App.exe，便携体检复制整个 app 目录时无需额外文件。 -->
+    <Resource Include="Assets\Backgrounds\*.jpg" />
+    <Resource Include="Assets\Thumbnails\*.jpg" />
+  </ItemGroup>
+
+</Project>

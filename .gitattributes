@@ -1,0 +1,16 @@
+# 统一换行符：仓库内一律存 LF，Windows 上的脚本按 CRLF 检出。
+# 这样 Windows / Linux 协作时不会出现整文件级别的换行噪声。
+* text=auto
+
+# PowerShell / cmd 对 CRLF 最稳（尤其是 .cmd 批处理）。
+*.ps1 text eol=crlf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# 二进制资源不做任何换行转换。
+*.jpg binary
+*.png binary
+*.ico binary
+*.exe binary
+*.dat binary
+*.zip binary
