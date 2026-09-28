@@ -107,8 +107,14 @@ jobs:
 
           gh release view $tag *> $null
           if ($LASTEXITCODE -eq 0) {
-            gh release edit $tag --title $title --notes-file $notes
+            # exists (maybe a draft): refresh notes, publish, then overwrite assets
+            gh release edit $tag --title $title --notes-file $notes --draft=false --prerelease=false
             gh release upload $tag @assets --clobber
           } else {
             gh release create $tag --title $title --notes-file $notes --verify-tag @assets
+            if ($LASTEXITCODE -ne 0) {
+              # create failed (release exists but not visible): fall back to edit + upload
+              gh release edit $tag --title $title --notes-file $notes --draft=false
+              gh release upload $tag @assets --clobber
+            }
           }
