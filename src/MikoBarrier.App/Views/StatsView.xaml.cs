@@ -1,7 +1,9 @@
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using MikoBarrier.Core.Models;
 using MikoBarrier.Core.Services;
+using MikoBarrier.Dialogs;
 
 namespace MikoBarrier.Views;
 
@@ -148,6 +150,22 @@ public partial class StatsView : UserControl, IGuidedView
         FocusTaskState.Active => "进行中",
         _ => "待开始",
     };
+
+    private void ShareCard_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            var path = ShareCardRenderer.SaveTodayCard(App.State.Settings, App.State.Records);
+            AppMessage.Info(HostWindow,
+                $"战绩卡已生成：\n{path}\n\n点「知道了」后会打开所在文件夹，可以直接发到聊天 / 动态。",
+                "战绩分享卡");
+            Process.Start(new ProcessStartInfo("explorer.exe", $"/select,\"{path}\"") { UseShellExecute = true });
+        }
+        catch (Exception ex)
+        {
+            AppMessage.Error(HostWindow, $"生成战绩卡失败：{ex.Message}", "战绩分享卡");
+        }
+    }
 
     private void RefreshButton_Click(object sender, RoutedEventArgs e) => Refresh();
 }

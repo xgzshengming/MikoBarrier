@@ -682,6 +682,24 @@ public partial class SettingsView : UserControl, IGuidedView
         }
     }
 
+    private const string RepoUrl = "https://github.com/xgzshengming/MikoBarrier";
+
+    private void OpenRepo_Click(object sender, RoutedEventArgs e) => OpenExternal(RepoUrl);
+
+    private void OpenIssues_Click(object sender, RoutedEventArgs e) => OpenExternal(RepoUrl + "/issues/new/choose");
+
+    private void OpenExternal(string url)
+    {
+        try
+        {
+            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+        }
+        catch (Exception ex)
+        {
+            AppMessage.Warn(HostWindow, $"打开链接失败：{ex.Message}");
+        }
+    }
+
     private void OpenDataFolder_Click(object sender, RoutedEventArgs e) => OpenFolder(StoragePaths.DataDir);
 
     private void OpenLogFolder_Click(object sender, RoutedEventArgs e) => OpenFolder(StoragePaths.LogDir);

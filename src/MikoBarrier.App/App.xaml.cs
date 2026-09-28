@@ -501,6 +501,36 @@ public partial class App : Application
                 : "OK   应用图标(托盘 ico 资源流可读)");
         }
 
+        // 战绩分享卡：渲染一张到临时文件，验证能画出来且不是空图，然后删除。
+        try
+        {
+            var cardFile = Path.Combine(Path.GetTempPath(), $"mikobarrier-sharecard-{Guid.NewGuid():N}.png");
+            var probeRecords = new List<SessionRecord>
+            {
+                new()
+                {
+                    StartedUtc = DateTime.Today.AddHours(9),
+                    EndedUtc = DateTime.Today.AddHours(9).AddMinutes(25),
+                    Completed = true,
+                    ActualFocusSeconds = 25 * 60,
+                    BlockedProcessCount = 3,
+                    BlockedKeyCount = 8,
+                    PlanSummary = "自检任务",
+                },
+            };
+
+            ShareCardRenderer.Render(new AppSettings { MikoModeEnabled = true }, probeRecords, DateTime.Now, cardFile);
+            var cardBytes = new FileInfo(cardFile).Length;
+            File.Delete(cardFile);
+            results.Add(cardBytes > 10_000
+                ? $"OK   战绩分享卡(900x1200 PNG，{cardBytes / 1024} KB)"
+                : $"FAIL 战绩分享卡(文件过小：{cardBytes} 字节)");
+        }
+        catch (Exception ex)
+        {
+            results.Add($"FAIL 战绩分享卡: {ex.GetType().Name}: {ex.Message}");
+        }
+
         try
         {
             var backgroundIds = AmbienceCatalog.Backgrounds.Select(b => b.Id).ToList();

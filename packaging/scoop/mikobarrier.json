@@ -1,0 +1,26 @@
+{
+    "version": "0.6.0-Miko",
+    "description": "Windows 强制自律工具：进程拦截 + hosts 断网 + 键盘封锁 + 双进程互保看门狗（无遥测）",
+    "homepage": "https://github.com/xgzshengming/MikoBarrier",
+    "license": "Apache-2.0",
+    "notes": [
+        "把 app 目录解压后双击 MikoBarrier.App.exe 即可，两个 exe 必须保持同目录。",
+        "断网档位与全局键盘封锁需要管理员权限。",
+        "数据默认保存在 D:\\MikoBarrier / E:\\MikoBarrier / F:\\MikoBarrier 或 %LocalAppData%\\MikoBarrier。"
+    ],
+    "url": "https://github.com/xgzshengming/MikoBarrier/releases/download/v0.6.0-Miko/MikoBarrier-0.6.0-Miko-win-x64.zip",
+    "hash": "__SHA256__",
+    "bin": [
+        ["MikoBarrier.App.exe", "MikoBarrier"],
+        ["MikoBarrier.Guard.exe", "MikoBarrier.Guard"]
+    ],
+    "shortcuts": [
+        ["MikoBarrier.App.exe", "MikoBarrier 巫女结界"]
+    ],
+    "checkver": {
+        "github": "https://github.com/xgzshengming/MikoBarrier"
+    },
+    "autoupdate": {
+        "url": "https://github.com/xgzshengming/MikoBarrier/releases/download/v$version/MikoBarrier-$version-win-x64.zip"
+    }
+}

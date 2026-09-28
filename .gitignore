@@ -27,3 +27,7 @@ audit-home/
 # ===== 本机专属覆盖配置与临时下载物 =====
 tools/*.local.ps1
 tools/*.zip
+
+# ===== 分发清单生成产物 / 本地发布说明草稿 =====
+/packaging/winget/out/
+/release-notes.md

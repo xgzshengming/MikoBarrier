@@ -1,0 +1,19 @@
+# winget 安装清单模板（由 tools\make-winget-manifests.ps1 填充）。
+# 发布物是 zip，里面是两个便携 exe；winget 用 nested portable 方式解包并建立命令别名。
+
+PackageIdentifier: MikoBarrier.MikoBarrier
+PackageVersion: __VERSION__
+InstallerType: zip
+NestedInstallerType: portable
+NestedInstallerFiles:
+  - RelativeFilePath: MikoBarrier.App.exe
+    PortableCommandAlias: mikobarrier
+  - RelativeFilePath: MikoBarrier.Guard.exe
+    PortableCommandAlias: mikobarrier-guard
+Installers:
+  - Architecture: x64
+    InstallerUrl: __URL__
+    InstallerSha256: __SHA256__
+    ReleaseDate: __RELEASEDATE__
+ManifestType: installer
+ManifestVersion: 1.10.0

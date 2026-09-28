@@ -1,0 +1,28 @@
+# winget 本地化清单模板（由 tools\make-winget-manifests.ps1 填充）。
+
+PackageIdentifier: MikoBarrier.MikoBarrier
+PackageVersion: __VERSION__
+PackageLocale: zh-CN
+Publisher: xgzshengming
+PublisherUrl: https://github.com/xgzshengming
+PackageName: MikoBarrier 巫女结界
+PackageUrl: https://github.com/xgzshengming/MikoBarrier
+License: Apache-2.0
+LicenseUrl: https://github.com/xgzshengming/MikoBarrier/blob/main/LICENSE
+Copyright: Copyright 2026 xgzshengming
+ShortDescription: Windows 强制自律工具：进程拦截 + 断网 + 键盘封锁 + 双进程互保看门狗
+Description: |-
+  MikoBarrier 是 Windows 上的强制自律工具：自律期间按黑白名单结束干扰进程、用 hosts 断网或直接禁用网卡、吞掉 Alt+Tab 等逃生键，并由 App ↔ Guard 双进程互保看门狗防止被强行结束。
+  关机 / 注销始终无条件放行，忘记密码可用安全问题或恢复码找回。无遥测、不联网上传、全部数据保存在本机。
+Moniker: mikobarrier
+Tags:
+  - focus
+  - productivity
+  - self-discipline
+  - app-blocker
+  - website-blocker
+  - pomodoro
+  - anti-procrastination
+ReleaseNotesUrl: https://github.com/xgzshengming/MikoBarrier/releases/tag/__TAG__
+ManifestType: locale
+ManifestVersion: 1.10.0

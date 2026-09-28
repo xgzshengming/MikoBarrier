@@ -1,0 +1,50 @@
+name: 兼容性报告（白名单体检）
+description: 提交一份 whitelist-audit 报告，帮助我们扩充白名单保护名单、减少误伤
+title: "[兼容性] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢帮忙扩充兼容性数据！MikoBarrier 的白名单模式需要在"绝不锁死 Windows"和"拦住干扰程序"之间取舍，
+        真实机器的进程样本越多，保护名单就越准。
+
+        生成报告（任选一种，报告只读、不改配置、不联网）：
+
+        1. 程序内：名单管理页 →「白名单体检」；
+        2. 命令行：`MikoBarrier.App.exe --whitelist-audit`，报告在 `logs\whitelist-audit.txt`；
+        3. 便携版：把 `app` 目录整体复制到目标电脑，双击 `whitelist-audit.cmd`，报告在 `audit-home\logs\whitelist-audit.txt`。
+
+        ⚠️ 报告含本机进程路径与用户名，贴之前请自行删掉不想公开的行。
+  - type: input
+    id: windows
+    attributes:
+      label: Windows 版本
+      description: 例如 Windows 11 24H2 x64 / Windows 10 22H2 x64
+      placeholder: Windows 11 24H2 x64
+    validations:
+      required: true
+  - type: dropdown
+    id: usage
+    attributes:
+      label: 你主要怎么用
+      options:
+        - 黑名单模式
+        - 白名单模式
+        - 还在试用
+    validations:
+      required: true
+  - type: textarea
+    id: report
+    attributes:
+      label: whitelist-audit.txt
+      description: 直接粘贴报告全文，或把文件拖进来
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: 其他说明（可选）
+      description: 比如"某个软件被误杀 / 某个必要程序没被放行"、特殊输入法、游戏反作弊、公司加密软件等
+    validations:
+      required: false

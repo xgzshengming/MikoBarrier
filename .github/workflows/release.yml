@@ -1,0 +1,114 @@
+name: release
+
+# 打 tag（v*）后自动：构建 -> 跑核心自检 -> 发布自包含单文件 -> 打 zip -> 建 GitHub Release。
+# 也可以手动触发（workflow_dispatch），填入已存在的 tag。
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: '要发布的 tag（必须已存在，例如 v0.6.0-Miko）'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build and publish release
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.tag || github.ref }}
+          fetch-depth: 0
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Build solution
+        run: dotnet build .\MikoBarrier.sln -c Release -v minimal
+
+      - name: Run core smoke tests
+        run: dotnet run --project .\tools\SmokeTest\SmokeTest.csproj -c Release
+
+      - name: Publish self-contained single-file app
+        shell: pwsh
+        run: .\tools\publish.ps1 -Configuration Release
+
+      - name: Pack release assets
+        id: pack
+        shell: pwsh
+        run: |
+          $tag = '${{ github.event.inputs.tag || github.ref_name }}'
+          $version = $tag -replace '^v', ''
+          $zipName = "MikoBarrier-$version-win-x64.zip"
+          $zipPath = Join-Path $env:RUNNER_TEMP $zipName
+          Compress-Archive -Path .\app\* -DestinationPath $zipPath -Force
+          $zipHash = (Get-FileHash -LiteralPath $zipPath -Algorithm SHA256).Hash.ToLowerInvariant()
+
+          $sums = [System.Collections.Generic.List[string]]::new()
+          $sums.Add("$zipHash  $zipName")
+          Get-Content .\app\SHA256SUMS.txt | ForEach-Object { $sums.Add($_) }
+          $sumsPath = Join-Path $env:RUNNER_TEMP 'SHA256SUMS.txt'
+          [IO.File]::WriteAllLines($sumsPath, $sums, [Text.UTF8Encoding]::new($false))
+
+          "tag=$tag" >> $env:GITHUB_OUTPUT
+          "version=$version" >> $env:GITHUB_OUTPUT
+          "zip=$zipPath" >> $env:GITHUB_OUTPUT
+          "zip_hash=$zipHash" >> $env:GITHUB_OUTPUT
+          "sums=$sumsPath" >> $env:GITHUB_OUTPUT
+
+      - name: Compose release notes
+        shell: pwsh
+        run: |
+          $version = '${{ steps.pack.outputs.version }}'
+          $zipHash = '${{ steps.pack.outputs.zip_hash }}'
+          $notes = & .\tools\get-release-notes.ps1 -Version $version
+
+          $extra = @'
+          ## 下载与安装
+
+          - 推荐下载 `MikoBarrier-{VERSION}-win-x64.zip`，解压后双击 `MikoBarrier.App.exe`；
+          - 也可以只下载 `MikoBarrier.App.exe` + `MikoBarrier.Guard.exe`，两个 exe 必须放在同一目录；
+          - 自包含单文件，不需要预装 .NET 运行时；断网档位与全局键盘封锁需要管理员权限；
+          - 发布版未做代码签名，SmartScreen 可能提示"未知发布者"，请核对下方 SHA256 后运行。
+
+          ## 校验和
+
+          ```
+          {HASH}  MikoBarrier-{VERSION}-win-x64.zip
+          ```
+
+          完整说明、常见问题与卸载步骤见仓库首页 README。
+          '@
+          $extra = $extra.Replace('{VERSION}', $version).Replace('{HASH}', $zipHash)
+          $text = $notes + "`n`n" + $extra
+          [IO.File]::WriteAllText((Join-Path $env:RUNNER_TEMP 'release-notes.md'), $text, [Text.UTF8Encoding]::new($false))
+
+      - name: Create or update GitHub Release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          $tag = '${{ steps.pack.outputs.tag }}'
+          $title = "MikoBarrier ${{ steps.pack.outputs.version }}"
+          $notes = Join-Path $env:RUNNER_TEMP 'release-notes.md'
+          $zip = '${{ steps.pack.outputs.zip }}'
+          $sums = '${{ steps.pack.outputs.sums }}'
+          $assets = @($zip, '.\app\MikoBarrier.App.exe', '.\app\MikoBarrier.Guard.exe', $sums)
+
+          gh release view $tag *> $null
+          if ($LASTEXITCODE -eq 0) {
+            gh release edit $tag --title $title --notes-file $notes
+            gh release upload $tag @assets --clobber
+          } else {
+            gh release create $tag --title $title --notes-file $notes --verify-tag @assets
+          }

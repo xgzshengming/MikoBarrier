@@ -1,4 +1,4 @@
-﻿# 用隔离的 MikoBarrier_HOME 启动已发布版，抓取主界面与各页面截图。
+# 用隔离的 MikoBarrier_HOME 启动已发布版，抓取主界面与各页面截图。
 #
 # 用法：
 #   1. 先运行 tools\publish.ps1 生成 .\app\MikoBarrier.App.exe；
@@ -92,7 +92,7 @@ function Save-Shot([string]$name) {
     Write-Host ("已保存 {0}  ({1}x{2}, {3:N0} KB)" -f $name, $w, $ht, ((Get-Item $path).Length / 1KB))
 }
 
-Save-Shot '01-focus.png'
+Save-Shot 'ui-01-focus.png'
 
 # ---- 用 UIAutomation 切换导航页面 ----
 Add-Type -AssemblyName UIAutomationClient
@@ -110,11 +110,11 @@ function Click-Nav([string]$text, [string]$file) {
     Save-Shot $file
 }
 
-Click-Nav '名单管理' '02-rules.png'
-Click-Nav '任务清单' '03-tasks.png'
-Click-Nav '自律统计' '04-stats.png'
-Click-Nav '系统设置' '05-settings.png'
-Click-Nav '自律结界' '06-focus-portal.png'
+Click-Nav '名单管理' 'ui-02-rules.png'
+Click-Nav '任务清单' 'ui-03-tasks.png'
+Click-Nav '自律统计' 'ui-04-stats.png'
+Click-Nav '系统设置' 'ui-05-settings.png'
+Click-Nav '自律结界' 'ui-06-focus-portal.png'
 
 if (-not $proc.HasExited) {
     $proc.CloseMainWindow() | Out-Null

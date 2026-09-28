@@ -80,6 +80,14 @@
                         </StackPanel>
                     </Button>
                 </UniformGrid>
+
+                <Button x:Name="ShareCardButton" Style="{StaticResource HubButton}" Margin="0,2,0,0" Click="ShareCard_Click">
+                    <StackPanel>
+                        <TextBlock Text="生成战绩分享卡" FontWeight="SemiBold" FontSize="15" />
+                        <TextBlock Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,4,0,0"
+                                   Text="导出今日战绩 PNG，可直接发到聊天 / 动态" />
+                    </StackPanel>
+                </Button>
             </StackPanel>
 
             <!-- 历史记录子界面 -->

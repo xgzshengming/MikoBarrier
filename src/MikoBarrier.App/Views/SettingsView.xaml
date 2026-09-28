@@ -37,6 +37,18 @@
                         </StackPanel>
                     </StackPanel>
                 </Border>
+
+                <Border Style="{StaticResource Card}" Margin="0,14,0,0">
+                    <StackPanel>
+                        <TextBlock Text="开源与反馈" FontWeight="SemiBold" />
+                        <TextBlock Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,8,0,0"
+                                   Text="MikoBarrier 以 Apache-2.0 开源、无遥测。去 GitHub 点个 Star，能让更多需要它的人看到。" />
+                        <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                            <Button Content="在 GitHub 上 Star" Click="OpenRepo_Click" />
+                            <Button Content="反馈问题 / 建议" Click="OpenIssues_Click" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
             </StackPanel>
 
             <!-- 外观与启动 -->

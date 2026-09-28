@@ -1,0 +1,8 @@
+# winget 版本清单模板（由 tools\make-winget-manifests.ps1 填充）。
+# 版本号用纯数字三段（例如 0.6.0）；Windows 上 -Miko 这类后缀不要写进 PackageVersion。
+
+PackageIdentifier: MikoBarrier.MikoBarrier
+PackageVersion: __VERSION__
+DefaultLocale: zh-CN
+ManifestType: version
+ManifestVersion: 1.10.0
