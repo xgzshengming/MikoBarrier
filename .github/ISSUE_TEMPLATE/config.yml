@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+
+# 发布后可以按需添加下面的私密报告入口，并把 OWNER/REPO 换成实际仓库路径：
+#
+# contact_links:
+#   - name: 安全漏洞私密报告
+#     url: https://github.com/OWNER/REPO/security/advisories/new
+#     about: 请不要用公开 issue 报告安全漏洞

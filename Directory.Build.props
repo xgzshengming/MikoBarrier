@@ -7,7 +7,8 @@
     <InformationalVersion>0.6.0-Miko</InformationalVersion>
     <Product>MikoBarrier</Product>
     <Company>MikoBarrier</Company>
-    <Copyright>MikoBarrier</Copyright>
+    <Authors>xgzshengming</Authors>
+    <Copyright>Copyright 2026 xgzshengming</Copyright>
     <NeutralLanguage>zh-CN</NeutralLanguage>
   </PropertyGroup>
 </Project>

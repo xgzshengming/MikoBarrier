@@ -1,0 +1,99 @@
+name: 🐞 Bug 报告
+description: 报告 MikoBarrier 在使用、构建或发布测试中遇到的问题
+title: "[Bug] "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈。提交前请先搜索现有 issue，并确认你使用的是自己拥有或有权管理的电脑。
+
+        ⚠️ 如果是安全漏洞（例如密码/冷却可被绕过、提权、数据泄露），请不要公开提交 issue，改用仓库 Security 标签页中的「Report a vulnerability」私密报告。
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 发生了什么
+      description: 简要描述现象和你的预期。
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: 复现步骤
+      description: 请尽量按顺序写清楚每一步。
+      placeholder: |
+        1. 打开 ...
+        2. 选择 ...
+        3. 看到 ...
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: MikoBarrier 版本
+      description: 在「系统设置」或窗口标题/关于信息里可以看到，例如 v0.6.0-Miko。
+      placeholder: v0.6.0-Miko
+    validations:
+      required: true
+
+  - type: dropdown
+    id: windows
+    attributes:
+      label: Windows 版本
+      options:
+        - Windows 11
+        - Windows 10
+        - Windows Server
+        - 其他（请在补充信息中说明）
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: 问题涉及的模块
+      options:
+        - 启动 / 安装 / 更新
+        - 自律计时 / 快照恢复
+        - 键盘封锁
+        - 黑名单 / 白名单
+        - 断网 / hosts / 网卡
+        - 任务 / 统计 / 主题
+        - 巫女模式
+        - 构建 / 发布 / 自检
+        - 其他
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 日志与截图
+      description: 可粘贴 app.log / guard.log 的相关片段，或附截图。请先检查并删除隐私信息（文件名、路径、任务名等）。
+      render: text
+    validations:
+      required: false
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: 补充信息
+      description: 杀软、代理、权限、是否使用了管理员模式等。
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: 确认
+      options:
+        - label: 我已搜索现有 issue，没有找到相同问题
+          required: true
+        - label: 我使用的是自己拥有或有权管理的电脑
+          required: true
+        - label: 我理解 MikoBarrier 会修改本机设置（hosts / 网卡 / 启动项 / 计划任务），并愿意提供必要信息
+          required: true

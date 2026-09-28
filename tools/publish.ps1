@@ -63,13 +63,32 @@ $commonArgs = @(
 
 Write-Output '=== publish app ==='
 & $DotnetExe publish (Join-Path $repo 'src\MikoBarrier.App\MikoBarrier.App.csproj') @commonArgs
-Write-Output "app publish exit=$LASTEXITCODE"
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "app publish 失败，exit=$LASTEXITCODE" -ForegroundColor Red
+    exit $LASTEXITCODE
+}
 
 Write-Output '=== publish guard ==='
 & $DotnetExe publish (Join-Path $repo 'src\MikoBarrier.Guard\MikoBarrier.Guard.csproj') @commonArgs
-Write-Output "guard publish exit=$LASTEXITCODE"
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "guard publish 失败，exit=$LASTEXITCODE" -ForegroundColor Red
+    exit $LASTEXITCODE
+}
 
-Write-Output '=== copy whitelist audit launcher ==='
+Write-Output '=== copy whitelist audit launcher and notices ==='
 Copy-Item (Join-Path $PSScriptRoot 'whitelist-audit.cmd') (Join-Path $app 'whitelist-audit.cmd') -Force
 Copy-Item (Join-Path $PSScriptRoot 'whitelist-audit.ps1') (Join-Path $app 'whitelist-audit.ps1') -Force
+Copy-Item (Join-Path $repo 'LICENSE') (Join-Path $app 'LICENSE') -Force
+Copy-Item (Join-Path $repo 'NOTICE') (Join-Path $app 'NOTICE') -Force
+Write-Output '=== generate SHA256SUMS.txt ==='
+$sumFiles = @('MikoBarrier.App.exe','MikoBarrier.Guard.exe','whitelist-audit.cmd','whitelist-audit.ps1','LICENSE','NOTICE')
+$sumLines = foreach ($name in $sumFiles) {
+    $file = Join-Path $app $name
+    if (Test-Path -LiteralPath $file) {
+        $hash = (Get-FileHash -LiteralPath $file -Algorithm SHA256).Hash.ToLowerInvariant()
+        "$hash  $name"
+    }
+}
+[IO.File]::WriteAllLines((Join-Path $app 'SHA256SUMS.txt'), $sumLines, (New-Object System.Text.UTF8Encoding($false)))
+
 Write-Output 'PUBLISH_ALL_DONE'

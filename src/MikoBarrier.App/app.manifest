@@ -6,9 +6,9 @@
     <security>
       <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
         <!--
-          框架阶段使用 asInvoker，方便开发调试。
-          正式版本会改为 requireAdministrator（拦截网站 / 网卡 / 进程需要管理员权限），
-          并改用任务计划程序实现开机静默提权。
+          主程序保持 asInvoker 启动：设置页提供「以管理员身份重启」，
+          需要断网 / 计划任务等管理员能力时再通过 UAC 提权；
+          可选的任务计划任务会在登录时以最高权限静默启动。
         -->
         <requestedExecutionLevel level="asInvoker" uiAccess="false" />
       </requestedPrivileges>

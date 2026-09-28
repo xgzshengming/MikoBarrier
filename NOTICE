@@ -1,5 +1,5 @@
 MikoBarrier  巫女结界
-Copyright 2026 MikoBarrier
+Copyright 2026 xgzshengming
 
 This product includes software developed by third parties. The following
 attribution notices are provided in accordance with Section 4(d) of the
@@ -57,3 +57,18 @@ Apache License, Version 2.0.
        bright-library.jpg
 
    Assets/Thumbnails/ 下的缩略图由上述图片等比例缩放生成。
+
+===============================================================================
+3. .NET 8 / WPF 运行时（自包含发布）
+===============================================================================
+
+    Release 版本中的 app/MikoBarrier.App.exe 与 app/MikoBarrier.Guard.exe
+    以 self-contained 单文件方式发布，内嵌 .NET 8 运行时与 WPF 组件。
+
+    .NET is licensed under the MIT License.
+    Copyright (c) .NET Foundation and Contributors.
+
+    Source : https://github.com/dotnet/runtime
+    License: https://github.com/dotnet/runtime/blob/main/LICENSE.TXT
+    Third-party notices:
+    https://github.com/dotnet/runtime/blob/main/THIRD-PARTY-NOTICES.TXT

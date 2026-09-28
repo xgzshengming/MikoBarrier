@@ -4,6 +4,12 @@ obj/
 *.user
 *.suo
 
+# ===== IDE / 测试临时文件 =====
+.vs/
+.idea/
+TestResults/
+*.binlog
+
 # ===== 运行时数据（含个人隐私，切勿提交）=====
 # 程序会在这里写入 config.json（含密码 / 安全问题哈希 / 名单）、stats.json、
 # tasks.json、patrol-log.json、session.lock、recovery-code.dat、incidents\、runtime\
