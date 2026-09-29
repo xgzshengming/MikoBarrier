@@ -38,7 +38,13 @@
 
 **代码镜像**：[Gitee](https://gitee.com/xgzshengming/miko-barrier)（国内访问更快，源码与 GitHub 同步；发版仍以 GitHub Releases 为准）
 
-> 三处文件完全一致，校验值见 [Release 说明](https://github.com/xgzshengming/MikoBarrier/releases/latest) 的「校验和」，与 `SHA256SUMS.txt` 相同。网盘链接若失效，请到 [Issues](https://github.com/xgzshengming/MikoBarrier/issues) 反馈。
+> 三处文件完全一致，`MikoBarrier-0.6.0-Miko-win-x64.zip` 的 `SHA256`：
+>
+> ```
+> 2cfb772a56bdb38734e0cf9ff3be699b037d1881bd45a5660be8974d95431248
+> ```
+>
+> 想自己核对：PowerShell 里执行 `Get-FileHash .\MikoBarrier-0.6.0-Miko-win-x64.zip -Algorithm SHA256`，结果应与上面一致。网盘链接若失效，请到 [Issues](https://github.com/xgzshengming/MikoBarrier/issues) 反馈。
 
 - 自包含单文件，**不需要预装 .NET 运行时**；
 - `MikoBarrier.Guard.exe` 是看门狗，负责自律期间的进程巡逻和 App ↔ Guard 互保，少了它功能不完整；

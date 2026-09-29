@@ -32,6 +32,8 @@
 
 **Mirror:** [Gitee](https://gitee.com/xgzshengming/miko-barrier) (faster in mainland China; source is synced from GitHub).
 
+All channels serve the same file. `SHA256` (zip): `2cfb772a56bdb38734e0cf9ff3be699b037d1881bd45a5660be8974d95431248`
+
 You may also download the two executables directly: `MikoBarrier.App.exe` **and** `MikoBarrier.Guard.exe` must be kept **in the same folder**.
 
 - Self-contained single-file build: **no .NET runtime installation required**.
