@@ -110,6 +110,19 @@ MikoBarrier 会枚举进程、结束进程、改 hosts、禁用网卡、写开�
 2. 已存在的 `D:\MikoBarrier` / `F:\MikoBarrier` / `E:\MikoBarrier`；
 3. `%LocalAppData%\MikoBarrier`。
 
+### 我把程序换了个文件夹，为什么旧数据还在？
+
+因为**数据不是跟着 exe 走的**。程序只认上面那三个位置，只要这台电脑上已经存在其中一个，无论你把 exe 解压到哪里，读到的都是同一份配置、统计和密码——这是故意的：**升级版本、移动目录都不会丢数据**。
+
+想体验"全新用户"的效果（普通模式 + 新手引导），把 `MikoBarrier_HOME` 设成一个空目录再启动：
+
+```powershell
+$env:MikoBarrier_HOME = "$env:TEMP\MikoBarrier-Test"
+.\MikoBarrier.App.exe
+```
+
+想彻底清空，先退出程序，再删除上面第 1–3 条命中的那个数据根目录。
+
 ### 会上传数据吗？
 
 不会。无遥测、无联网上传；密码与安全问题只存哈希，恢复码本机副本用 DPAPI（CurrentUser）加密。
