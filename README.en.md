@@ -10,7 +10,7 @@
 [![license](https://img.shields.io/github/license/xgzshengming/MikoBarrier?color=D93A2B)](LICENSE)
 [![platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-0078D4)](#requirements)
 
-**[中文文档](README.md)** · [FAQ (Chinese)](docs/FAQ.md) · [Changelog](CHANGELOG.md)
+**[中文文档](README.md)** · [FAQ (Chinese)](docs/FAQ.md) · [Changelog](CHANGELOG.md) · [Gitee mirror](https://gitee.com/xgzshengming/miko-barrier)
 
 > The application UI is currently Chinese-only. An English UI is on the roadmap — feel free to open an issue to vote for it.
 
@@ -18,9 +18,19 @@
 
 ## Quick start
 
+**China: Quark netdisk (recommended, fast)**
+
+- Link: <https://pan.quark.cn/s/37cdc61bc577>
+- Access code: `MafQ`
+- The folder contains the full zip as well as the two separate executables.
+
+**Official source: GitHub Releases**
+
 1. Download `MikoBarrier-<version>-win-x64.zip` from [Releases](https://github.com/xgzshengming/MikoBarrier/releases/latest).
 2. Extract it anywhere (e.g. `D:\MikoBarrier`).
 3. Run `MikoBarrier.App.exe`.
+
+**Mirror:** [Gitee](https://gitee.com/xgzshengming/miko-barrier) (faster in mainland China; source is synced from GitHub).
 
 You may also download the two executables directly: `MikoBarrier.App.exe` **and** `MikoBarrier.Guard.exe` must be kept **in the same folder**.
 

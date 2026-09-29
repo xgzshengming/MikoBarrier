@@ -15,19 +15,30 @@
 [常见问题](docs/FAQ.md) ·
 [与同类工具对比](docs/对比同类工具.md) ·
 [更新日志](CHANGELOG.md) ·
+[Gitee 镜像](https://gitee.com/xgzshengming/miko-barrier) ·
 [发布与分发](docs/发布与分发.md)
 
 ![15 秒演示：展开结界 → Alt+Tab 被吞 → 结束战报](docs/screenshots/demo.gif)
 
 ## 快速开始
 
-### 下载（推荐整包 zip）
+### 下载
+
+**方式一：夸克网盘（国内推荐，速度快）**
+
+- 链接：<https://pan.quark.cn/s/37cdc61bc577>
+- 提取码：`MafQ`
+- 分享目录里有整包 zip，也有两个单独的 exe：`MikoBarrier.App.exe` + `MikoBarrier.Guard.exe`（**必须放在同一个目录**）。
+
+**方式二：GitHub Releases（官方源）**
 
 1. 到 [Releases](https://github.com/xgzshengming/MikoBarrier/releases/latest) 下载 `MikoBarrier-<版本>-win-x64.zip`；
 2. 解压到任意目录（例如 `D:\MikoBarrier`）；
 3. 双击 `MikoBarrier.App.exe`。
 
-也可以只下载两个 exe：`MikoBarrier.App.exe` + `MikoBarrier.Guard.exe`，**必须放在同一个目录**。
+**代码镜像**：[Gitee](https://gitee.com/xgzshengming/miko-barrier)（国内访问更快，源码与 GitHub 同步；发版仍以 GitHub Releases 为准）
+
+> 三处文件完全一致，校验值见 [Release 说明](https://github.com/xgzshengming/MikoBarrier/releases/latest) 的「校验和」，与 `SHA256SUMS.txt` 相同。网盘链接若失效，请到 [Issues](https://github.com/xgzshengming/MikoBarrier/issues) 反馈。
 
 - 自包含单文件，**不需要预装 .NET 运行时**；
 - `MikoBarrier.Guard.exe` 是看门狗，负责自律期间的进程巡逻和 App ↔ Guard 互保，少了它功能不完整；
