@@ -17,10 +17,7 @@
 [更新日志](CHANGELOG.md) ·
 [发布与分发](docs/发布与分发.md)
 
-![MikoBarrier 主界面（真·巫女主题）](docs/screenshots/01-focus-miko.png)
-
-<!-- 录好 15 秒演示 GIF 后（文件放 docs\screenshots\demo.gif），把下一行的注释打开，阅读体验会好很多： -->
-<!-- ![15 秒演示：Alt+Tab 按不掉](docs/screenshots/demo.gif) -->
+![15 秒演示：展开结界 → Alt+Tab 被吞 → 结束战报](docs/screenshots/demo.gif)
 
 ## 快速开始
 

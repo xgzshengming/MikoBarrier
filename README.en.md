@@ -14,7 +14,7 @@
 
 > The application UI is currently Chinese-only. An English UI is on the roadmap — feel free to open an issue to vote for it.
 
-![MikoBarrier main window](docs/screenshots/01-focus-miko.png)
+![MikoBarrier in action: start a session, Alt+Tab is blocked, session report](docs/screenshots/demo.gif)
 
 ## Quick start
 
